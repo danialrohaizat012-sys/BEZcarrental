@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+/* BEZ design tokens — "Showroom at dusk" (see docs/PLAN.md §6) */
+:root {
+  --ink: #111418;
+  --ivory: #f6f4ef;
+  --petrol: #0e4d57;
+  --amber: #c98a2e;
+  --steel: #5b6470;
+  --line: #e2ded5;
+  --background: var(--ivory);
+  --foreground: var(--ink);
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ivory: var(--ivory);
+  --color-petrol: var(--petrol);
+  --color-amber: var(--amber);
+  --color-steel: var(--steel);
+  --color-line: var(--line);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-manrope);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0d1013;
+    --foreground: #ece9e2;
+    --line: #262b31;
+    --steel: #9aa3ad;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
