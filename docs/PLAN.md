@@ -3,7 +3,7 @@
 > Independent sales prototype by **BinaLab**. Not commissioned, affiliated with, or endorsed by BEZ Car Rental.
 > All vehicles, prices, policies, testimonials and business details are placeholders until verified.
 
-Status: **Phase 1 approved** (bilingual BM/EN; images from public sources; local Supabase first). **Phase 2 complete.** Nothing in §5 is created in a database until Phase 4.
+Status: **Phase 1 approved** (bilingual BM/EN; images from public sources; local Supabase first). **Phases 2 and 3 complete.** Nothing in §5 is created in a database until Phase 4.
 
 ---
 
@@ -159,6 +159,6 @@ Transitions enforced by a DB trigger and logged in `booking_status_history`. Set
 
 1. **Planning** — this document *(done)*
 2. **Public website** — homepage, catalogue, details, booking UI on mock data *(done)*
-3. **Admin system** — dashboard, bookings, fleet, calendar, customers
+3. **Admin system** — dashboard, bookings, fleet, calendar, customers *(done; demo storage in browser)*
 4. **Integration** — Supabase schema, RLS, RPCs, conflict enforcement, auth
 5. **QA** — functional, mobile, security, conflict testing, error handling, performance

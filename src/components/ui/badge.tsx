@@ -22,7 +22,7 @@ export function Badge({ tone = "neutral", dot = true, children, className = "" }
 /** Small uppercase tag marking demo/sample content. */
 export function SampleTag({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-md border border-dashed border-amber/60 bg-amber-soft/60 px-1.5 py-px text-[11px] font-semibold uppercase tracking-wide text-amber-2">
+    <span className="inline-flex shrink-0 items-center whitespace-nowrap rounded-md border border-dashed border-amber/60 bg-amber-soft/60 px-1.5 py-px text-[11px] font-semibold uppercase tracking-wide text-amber-2">
       {children}
     </span>
   );

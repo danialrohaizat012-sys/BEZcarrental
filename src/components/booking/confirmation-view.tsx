@@ -4,6 +4,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { DemoBooking } from "@/lib/booking/schema";
 import { loadBooking } from "@/lib/booking/storage";
+import { adminStatusForRef } from "@/lib/admin/store";
+import { getAdminDictionary } from "@/lib/i18n/admin";
+import type { BookingStatus } from "@/lib/admin/types";
 import type { AddOn, Location, SeasonalRule } from "@/lib/data/types";
 import { getDictionary, type Locale } from "@/lib/i18n";
 import { formatDateTime } from "@/lib/time";
@@ -19,8 +22,16 @@ export function ConfirmationView({ refCode, lang, addOns, locations, seasonalRul
   const t = getDictionary(lang);
   const c = t.confirmation;
   const [booking, setBooking] = useState<DemoBooking | null | undefined>(undefined);
-  // eslint-disable-next-line react-hooks/set-state-in-effect -- reading browser storage after mount
-  useEffect(() => setBooking(loadBooking(refCode)), [refCode]);
+  const [status, setStatus] = useState<BookingStatus>("pending");
+  useEffect(() => {
+    const read = () => { setBooking(loadBooking(refCode)); setStatus(adminStatusForRef(refCode) ?? "pending"); };
+    const id = setTimeout(read, 0); // read browser storage after mount
+    window.addEventListener("focus", read);
+    return () => { clearTimeout(id); window.removeEventListener("focus", read); };
+  }, [refCode]);
+  const statusLabel = getAdminDictionary(lang).status[status];
+  const isPending = status === "pending";
+  const tone = isPending ? "warn" : status === "rejected" || status === "cancelled" ? "bad" : "good";
 
   if (booking === undefined) return <div className="h-96 animate-pulse rounded-3xl bg-sand/60" aria-label={t.common.loading} />;
   if (booking === null) {
@@ -47,10 +58,10 @@ export function ConfirmationView({ refCode, lang, addOns, locations, seasonalRul
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-mist">{c.status}</p>
-              <p className="mt-2"><Badge tone="warn">{c.pending}</Badge></p>
+              <p className="mt-2"><Badge tone={tone}>{isPending ? c.pending : statusLabel}</Badge></p>
             </div>
           </div>
-          <p className="mt-4 flex gap-2 text-sm text-steel"><IconInfo className="mt-0.5 size-4 shrink-0 text-warn" />{c.pendingNote}</p>
+          {isPending && <p className="mt-4 flex gap-2 text-sm text-steel"><IconInfo className="mt-0.5 size-4 shrink-0 text-warn" />{c.pendingNote}</p>}
 
           <dl className="mt-6 divide-y divide-line border-t border-line text-[15px]">
             {[
@@ -78,7 +89,7 @@ export function ConfirmationView({ refCode, lang, addOns, locations, seasonalRul
           </ol>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <a href={whatsappLink(t.whatsapp.bookingMessage(booking.ref))} target="_blank" rel="noopener noreferrer"
-              className={buttonClass("primary", "md", "bg-[#1f8f4e] hover:bg-[#1a7a43]")}><IconWhatsApp className="size-5" />{c.whatsapp}</a>
+              className={buttonClass("primary", "md", "bg-[#1f8f4e]! hover:bg-[#1a7a43]!")}><IconWhatsApp className="size-5" />{c.whatsapp}</a>
             <Link href={`/${lang}/vehicles`} className={buttonClass("secondary", "md")}>{c.another}</Link>
           </div>
         </div>

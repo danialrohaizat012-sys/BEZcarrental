@@ -1,10 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Manrope } from "next/font/google";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import { Footer } from "@/components/site/footer";
-import { Header } from "@/components/site/header";
-import { WhatsAppFab } from "@/components/site/whatsapp-fab";
 import { getDictionary, hasLocale, locales } from "@/lib/i18n";
 import "../globals.css";
 
@@ -33,13 +29,7 @@ export default async function LangLayout({ children, params }: LayoutProps<"/[la
   return (
     <html lang={lang === "ms" ? "ms-MY" : "en-MY"} className={`${inter.variable} ${manrope.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
-        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-paper focus:px-4 focus:py-2">Skip</a>
-        <Suspense fallback={<div className="h-[88px]" />}>
-          <Header lang={lang} />
-        </Suspense>
-        <main id="main" className="flex-1">{children}</main>
-        <Footer lang={lang} />
-        <WhatsAppFab lang={lang} />
+        {children}
       </body>
     </html>
   );

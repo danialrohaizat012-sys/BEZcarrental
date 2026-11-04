@@ -20,8 +20,8 @@ export const getBookingRules = () => bookingRules;
  * Sample reservations and maintenance blocks, generated relative to "today" (MYT)
  * so the demo always has realistic upcoming activity. Contains no customer data.
  */
-type BlockSeed = [slug: string, fromDay: number, fromTime: string, toDay: number, toTime: string, kind: BusyRange["kind"]];
-const blockSeeds: BlockSeed[] = [
+export type BlockSeed = [slug: string, fromDay: number, fromTime: string, toDay: number, toTime: string, kind: BusyRange["kind"]];
+export const blockSeeds: BlockSeed[] = [
   ["perodua-myvi", 1, "09:00", 4, "09:00", "booking"],
   ["perodua-myvi", 9, "10:00", 12, "18:00", "booking"],
   ["honda-city", -2, "10:00", 2, "10:00", "booking"],
